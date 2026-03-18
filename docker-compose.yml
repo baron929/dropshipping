@@ -1,0 +1,55 @@
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: dropshipping-db
+    ports:
+      - "27017:27017"
+    environment:
+      # Use ${VAR} to pull from your .env file
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:-password123}
+      MONGO_INITDB_DATABASE: dropshipping
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: dropshipping-api
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      # Note: 'mongodb' here is the service name above
+      MONGO_URI: mongodb://${MONGO_USER:-admin}:${MONGO_PASS:-password123}@mongodb:27017/dropshipping?authSource=admin
+      PORT: 5000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      # This allows "Hot Reloading" - change code, see result instantly
+      - ./server:/app 
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: dropshipping-web
+    ports:
+      - "80:80"
+    environment:
+      # Change 'backend' to 'localhost' so your browser can find it
+      VITE_API_BASE: http://localhost:5000
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

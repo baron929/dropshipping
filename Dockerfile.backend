@@ -1,0 +1,30 @@
+
+# 1. Use the most secure, lightweight base for Node 22
+FROM node:22-bookworm-slim
+
+# 2. Fix the "Critical/High" OS vulnerabilities shown in your VS Code
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
+# 3. Set the internal working directory
+WORKDIR /app
+
+# 4. Copy package files first (This file is in the same folder as the Dockerfile)
+COPY package*.json ./
+
+# 5. Install production dependencies
+RUN npm install --omit=dev
+
+# 6. Copy the rest of the server files (src folder, scrapers, etc.)
+COPY . .
+
+# 7. Security: Give the 'node' user ownership of the /app folder
+RUN chown -R node:node /app
+
+# 8. Switch to the non-root user for security
+USER node
+
+# 9. Expose the port your Express app uses
+EXPOSE 5000
+
+# 10. Start the app (pointing to index.js inside your src folder)
+CMD ["node", "src/index.js"]
