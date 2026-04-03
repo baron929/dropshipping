@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 /**
  * Scrape products from Amazon (limited - Amazon blocking heavy scraping)
@@ -24,7 +24,7 @@ export async function scrapeAmazon(
       timeout: 15000,
     });
 
-    const $ = cheerio.load(data);
+    const $ = load(data);
     const products = [];
 
     $("div[data-component-type='s-search-result']").each((i, el) => {

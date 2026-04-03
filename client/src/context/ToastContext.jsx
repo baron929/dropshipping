@@ -20,6 +20,8 @@ export function ToastProvider({ children }) {
   return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
 }
 
+export { ToastContext };
+
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) {

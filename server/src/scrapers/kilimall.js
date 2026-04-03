@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 /**
  * Scrape products from Kilimall
@@ -17,7 +17,7 @@ export async function scrapeKilimall(url = "https://www.kilimall.com/") {
       timeout: 15000,
     });
 
-    const $ = cheerio.load(data);
+    const $ = load(data);
     const products = [];
 
     // Kilimall product cards selector

@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
@@ -17,7 +17,7 @@ export async function fetchProducts(query, { limit = 10 } = {}) {
     timeout: 15000,
   });
 
-  const $ = cheerio.load(response.data);
+  const $ = load(response.data);
   const results = [];
 
   $("div[data-component-type='s-search-result']").each((_, el) => {

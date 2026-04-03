@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Loader, CheckCircle, AlertCircle } from "lucide-react";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+
 /**
  * MpesaPayment Component
  *
@@ -37,7 +39,7 @@ export default function MpesaPayment({ orderId, amount, onPaymentSuccess }) {
     setError(null);
 
     try {
-      const response = await fetch("/api/mpesa/stk", {
+      const response = await fetch(`${API_BASE}/mpesa/stk`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,7 +83,7 @@ export default function MpesaPayment({ orderId, amount, onPaymentSuccess }) {
       });
 
       try {
-        const response = await fetch(`/api/mpesa/status/${orderId}`);
+        const response = await fetch(`${API_BASE}/mpesa/status/${orderId}`);
         const data = await response.json();
 
         setPaymentStatus(data);

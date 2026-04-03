@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 /**
  * Scrape products from Jumia Kenya
@@ -17,7 +17,7 @@ export async function scrapeJumia(url = "https://www.jumia.co.ke/flash-sales/") 
       timeout: 15000,
     });
 
-    const $ = cheerio.load(data);
+    const $ = load(data);
     const products = [];
 
     // Jumia product cards selector

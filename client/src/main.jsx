@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { CartProvider } from "./context/CartContext";
-import { ToastProvider, ToastContext } from "./context/ToastContext";
+import { ToastProvider } from "./context/ToastContext";
+import { ToastContext } from "./context/ToastContext";
 import { ToastContainer } from "./components/Toast";
 import "./styles/index.css";
 

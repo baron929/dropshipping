@@ -1,5 +1,4 @@
 import axios from "axios";
-import btoa from "btoa";
 
 const BASE_URL = "https://sandbox.safaricom.co.ke";
 

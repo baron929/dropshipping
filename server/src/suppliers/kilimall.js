@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 export async function fetchProducts(query, { limit = 10 } = {}) {
   const url = `https://www.kilimall.com/search?keyword=${encodeURIComponent(query)}`;
@@ -11,7 +11,7 @@ export async function fetchProducts(query, { limit = 10 } = {}) {
     timeout: 15000,
   });
 
-  const $ = cheerio.load(response.data);
+  const $ = load(response.data);
   const results = [];
 
   $(".product-list .product-item").each((_, el) => {

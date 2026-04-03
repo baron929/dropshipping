@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import MpesaPayment from "./MpesaPayment";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+
 export default function CheckoutForm({ onClose }) {
   const { cartItems, clearCart } = useCart();
   const [submitting, setSubmitting] = useState(false);
@@ -39,7 +41,7 @@ export default function CheckoutForm({ onClose }) {
     setError(null);
 
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(`${API_BASE}/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

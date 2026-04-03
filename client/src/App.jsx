@@ -4,6 +4,8 @@ import ProductGrid from "./components/ProductGrid";
 import CartDrawer from "./components/CartDrawer";
 import CheckoutForm from "./components/CheckoutForm";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+
 export default function App() {
   const [products, setProducts] = useState([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -11,7 +13,7 @@ export default function App() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch(`${API_BASE}/products`);
         if (!res.ok) throw new Error("Failed to load products");
         const data = await res.json();
         setProducts(data);
